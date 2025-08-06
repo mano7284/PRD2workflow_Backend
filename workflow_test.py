@@ -10,7 +10,8 @@ import time
 from datetime import datetime
 
 # Configuration
-BACKEND_URL = "http://localhost:8000/api"
+# BACKEND_URL = "http://localhost:8000/api"
+BACKEND_URL = "https://prd2workflow-backend.onrender.com/api"
 
 # Sample PRD content for testing
 SAMPLE_PRD_CONTENT = """# Social Media Management Platform - PRD
