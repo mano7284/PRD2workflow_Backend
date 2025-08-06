@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRD/BRD Workflow Generator - Live Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .workflow-demo {
+            background: rgba(30, 30, 63, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .workflow-type {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .workflow-steps {
+            margin: 20px 0;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 12px;
+            border-left: 4px solid;
+        }
+        
+        .step.start { border-left-color: #22c55e; }
+        .step.process { border-left-color: #3b82f6; }
+        .step.decision { border-left-color: #f59e0b; }
+        .step.end { border-left-color: #ef4444; }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            color: white;
+        }
+        
+        .step.start .step-number { background: #22c55e; }
+        .step.process .step-number { background: #3b82f6; }
+        .step.decision .step-number { background: #f59e0b; }
+        .step.end .step-number { background: #ef4444; }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-type {
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .step-label {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .step-description {
+            font-size: 14px;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+        
+        .visual-flow {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(16, 16, 30, 0.5);
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+        
+        .flow-container {
+            display: flex;
+            align-items: center;
+            min-width: max-content;
+            gap: 15px;
+        }
+        
+        .flow-node {
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 2px solid;
+            text-align: center;
+            min-width: 120px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .flow-node.start {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+            color: #86efac;
+        }
+        
+        .flow-node.process {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+            color: #93c5fd;
+        }
+        
+        .flow-node.decision {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: #f59e0b;
+            color: #fcd34d;
+        }
+        
+        .flow-node.end {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #fca5a5;
+        }
+        
+        .arrow {
+            color: #8b5cf6;
+            font-size: 20px;
+        }
+        
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .summary-item {
+            background: rgba(26, 26, 46, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .summary-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #8b5cf6;
+        }
+        
+        .summary-label {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        .demo-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: transform 0.2s;
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .demo-controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 PRD/BRD Workflow Generator</h1>
+            <p>AI-powered visual workflow creation from your requirements documents</p>
+        </div>
+        
+        <div class="demo-controls">
+            <button class="demo-button" onclick="showWorkflow('user_journey')">👤 User Journey</button>
+            <button class="demo-button" onclick="showWorkflow('service_blueprint')">🏗️ Service Blueprint</button>
+            <button class="demo-button" onclick="showWorkflow('feature_flow')">⚡ Feature Flow</button>
+        </div>
+        
+        <!-- User Journey Demo -->
+        <div id="user_journey" class="workflow-demo" style="display: none;">
+            <span class="workflow-type">👤 User Journey Workflow</span>
+            <h3>E-commerce Mobile App - Shopping Flow</h3>
+            
+            <div class="workflow-steps">
+                <div class="step start">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-type">START</div>
+                        <div class="step-label">User Opens App</div>
+                        <div class="step-description">Customer launches the mobile application from their device</div>
+                    </div>
+                </div>
+                
+                <div class="step process">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-type">PROCESS</div>
+                        <div class="step-label">Browse Products</div>
+                        <div class="step-description">User explores product categories and views item details</div>
+                    </div>
+                </div>
+                
+                <div class="step process">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-type">PROCESS</div>
+                        <div class="step-label">Add to Cart</div>
+                        <div class="step-description">User selects items and adds them to shopping cart</div>
+                    </div>
+                </div>
+                
+                <div class="step decision">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-type">DECISION</div>
+                        <div class="step-label">Guest or Account?</div>
+                        <div class="step-description">User chooses to checkout as guest or create/login to account</div>
+                    </div>
+                </div>
+                
+                <div class="step process">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <div class="step-type">PROCESS</div>
+                        <div class="step-label">Enter Shipping Info</div>
+                        <div class="step-description">User provides delivery address and contact information</div>
+                    </div>
+                </div>
+                
+                <div class="step process">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <div class="step-type">PROCESS</div>
+                        <div class="step-label">Payment Processing</div>
+                        <div class="step-description">User enters payment details and confirms purchase</div>
+                    </div>
+                </div>
+                
+                <div class="step end">
+                    <div class="step-number">7</div>
+                    <div class="step-content">
+                        <div class="step-type">END</div>
+                        <div class="step-label">Order Confirmation</div>
+                        <div class="step-description">User receives order confirmation and tracking information</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-flow">
+                <h4>🔄 Visual Flow</h4>
+                <div class="flow-container">
+                    <div class="flow-node start">START<br>Open App</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node process">BROWSE<br>Products</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node process">ADD<br>to Cart</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node decision">GUEST?<br>Account?</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node process">SHIPPING<br>Info</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node process">PAYMENT<br>Process</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node end">ORDER<br>Confirmed</div>
+                </div>
+            </div>
+            
+            <div class="summary">
+                <div class="summary-item">
+                    <div class="summary-number">7</div>
+                    <div class="summary-label">Total Steps</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">1</div>
+                    <div class="summary-label">Start Points</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">4</div>
+                    <div class="summary-label">Process Steps</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">1</div>
+                    <div class="summary-label">Decision Points</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">1</div>
+                    <div class="summary-label">End Points</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Service Blueprint Demo -->
+        <div id="service_blueprint" class="workflow-demo" style="display: none;">
+            <span class="workflow-type">🏗️ Service Blueprint Workflow</span>
+            <h3>Customer Support System - Service Delivery</h3>
+            
+            <div class="workflow-steps">
+                <div class="step start">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-type">START</div>
+                        <div class="step-label">Customer Inquiry</div>
+                        <div class="step-description">Customer submits support ticket through app or website</div>
+                    </div>
+                </div>
+                
+                <div class="step process">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-type">PROCESS</div>
+                        <div class="step-label">Ticket Routing</div>
+                        <div class="step-description">System automatically categorizes and routes ticket to appropriate team</div>
+                    </div>
+                </div>
+                
+                <div class="step decision">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-type">DECISION</div>
+                        <div class="step-label">Complexity Assessment</div>
+                        <div class="step-description">Agent determines if issue requires Level 1 or Level 2 support</div>
+                    </div>
+                </div>
+                
+                <div class="step process">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-type">PROCESS</div>
+                        <div class="step-label">Issue Resolution</div>
+                        <div class="step-description">Support agent investigates and resolves customer issue</div>
+                    </div>
+                </div>
+                
+                <div class="step process">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <div class="step-type">PROCESS</div>
+                        <div class="step-label">Quality Check</div>
+                        <div class="step-description">Supervisor reviews resolution before customer notification</div>
+                    </div>
+                </div>
+                
+                <div class="step end">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <div class="step-type">END</div>
+                        <div class="step-label">Customer Notification</div>
+                        <div class="step-description">Customer receives resolution and satisfaction survey</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-flow">
+                <h4>🏗️ Service Flow</h4>
+                <div class="flow-container">
+                    <div class="flow-node start">INQUIRY<br>Received</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node process">AUTO<br>Routing</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node decision">COMPLEXITY<br>Check</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node process">RESOLVE<br>Issue</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node process">QUALITY<br>Check</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node end">NOTIFY<br>Customer</div>
+                </div>
+            </div>
+            
+            <div class="summary">
+                <div class="summary-item">
+                    <div class="summary-number">6</div>
+                    <div class="summary-label">Service Steps</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">3</div>
+                    <div class="summary-label">Process Steps</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">1</div>
+                    <div class="summary-label">Decision Points</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">2</div>
+                    <div class="summary-label">Quality Gates</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Feature Flow Demo -->
+        <div id="feature_flow" class="workflow-demo" style="display: none;">
+            <span class="workflow-type">⚡ Feature Flow Workflow</span>
+            <h3>Social Media Platform - Content Publishing</h3>
+            
+            <div class="workflow-steps">
+                <div class="step start">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-type">START</div>
+                        <div class="step-label">Content Creation Module</div>
+                        <div class="step-description">User accesses post creation interface</div>
+                    </div>
+                </div>
+                
+                <div class="step process">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-type">PROCESS</div>
+                        <div class="step-label">Media Upload Feature</div>
+                        <div class="step-description">System processes and optimizes uploaded images/videos</div>
+                    </div>
+                </div>
+                
+                <div class="step process">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-type">PROCESS</div>
+                        <div class="step-label">Content Moderation</div>
+                        <div class="step-description">AI checks content for policy violations</div>
+                    </div>
+                </div>
+                
+                <div class="step decision">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-type">DECISION</div>
+                        <div class="step-label">Scheduling Feature</div>
+                        <div class="step-description">User chooses immediate publish or scheduled posting</div>
+                    </div>
+                </div>
+                
+                <div class="step process">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <div class="step-type">PROCESS</div>
+                        <div class="step-label">Distribution Engine</div>
+                        <div class="step-description">Content is distributed to user feeds and notifications sent</div>
+                    </div>
+                </div>
+                
+                <div class="step process">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <div class="step-type">PROCESS</div>
+                        <div class="step-label">Analytics Tracking</div>
+                        <div class="step-description">System begins tracking engagement metrics</div>
+                    </div>
+                </div>
+                
+                <div class="step end">
+                    <div class="step-number">7</div>
+                    <div class="step-content">
+                        <div class="step-type">END</div>
+                        <div class="step-label">Content Live</div>
+                        <div class="step-description">Post is live and available for user interaction</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visual-flow">
+                <h4>⚡ Feature Connections</h4>
+                <div class="flow-container">
+                    <div class="flow-node start">CONTENT<br>Creator</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node process">MEDIA<br>Upload</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node process">CONTENT<br>Moderation</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node decision">SCHEDULE?<br>Now?</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node process">DISTRIBUTE<br>Content</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node process">TRACK<br>Analytics</div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node end">CONTENT<br>Live</div>
+                </div>
+            </div>
+            
+            <div class="summary">
+                <div class="summary-item">
+                    <div class="summary-number">7</div>
+                    <div class="summary-label">Features</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">4</div>
+                    <div class="summary-label">Core Modules</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">1</div>
+                    <div class="summary-label">Decision Points</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">2</div>
+                    <div class="summary-label">Integrations</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showWorkflow(type) {
+            // Hide all workflows
+            const workflows = document.querySelectorAll('.workflow-demo');
+            workflows.forEach(w => w.style.display = 'none');
+            
+            // Show selected workflow
+            document.getElementById(type).style.display = 'block';
+            
+            // Scroll to workflow
+            document.getElementById(type).scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+        
+        // Show user journey by default
+        showWorkflow('user_journey');
+    </script>
+</body>
+</html>

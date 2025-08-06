@@ -1,0 +1,183 @@
+{
+  "total_tests": 25,
+  "passed_tests": 24,
+  "failed_tests": 1,
+  "success_rate": 96.0,
+  "test_results": [
+    {
+      "test_name": "Health Check",
+      "success": true,
+      "details": "Enhanced health check passed. Features: {'authentication': True, 'document_parsing': ['PDF', 'DOCX', 'TXT', 'MD'], 'analysis_types': ['gap_analysis', 'requirements_extraction', 'summary'], 'workflow_generation': ['user_journey', 'service_blueprint', 'feature_flow']}",
+      "timestamp": "2025-07-13T06:30:19.375883",
+      "response_data": null
+    },
+    {
+      "test_name": "Basic API Endpoint",
+      "success": true,
+      "details": "Root endpoint responding correctly",
+      "timestamp": "2025-07-13T06:30:19.385332",
+      "response_data": null
+    },
+    {
+      "test_name": "User Registration",
+      "success": true,
+      "details": "User already exists (expected for repeated tests)",
+      "timestamp": "2025-07-13T06:30:19.457771",
+      "response_data": null
+    },
+    {
+      "test_name": "User Login",
+      "success": true,
+      "details": "User logged in successfully. Token type: bearer",
+      "timestamp": "2025-07-13T06:30:19.707148",
+      "response_data": null
+    },
+    {
+      "test_name": "Get Current User",
+      "success": true,
+      "details": "User profile retrieved successfully. Active: True",
+      "timestamp": "2025-07-13T06:30:19.725283",
+      "response_data": null
+    },
+    {
+      "test_name": "Protected Route Without Auth",
+      "success": true,
+      "details": "Protected route correctly requires authentication",
+      "timestamp": "2025-07-13T06:30:19.733751",
+      "response_data": null
+    },
+    {
+      "test_name": "PDF Parsing",
+      "success": true,
+      "details": "PDF parsed successfully. Content length: 904",
+      "timestamp": "2025-07-13T06:30:26.531745",
+      "response_data": null
+    },
+    {
+      "test_name": "DOCX Parsing",
+      "success": true,
+      "details": "DOCX parsed successfully. Content length: 1032",
+      "timestamp": "2025-07-13T06:30:28.875953",
+      "response_data": null
+    },
+    {
+      "test_name": "Unsupported File Type",
+      "success": true,
+      "details": "Correctly rejected unsupported file type",
+      "timestamp": "2025-07-13T06:30:28.886812",
+      "response_data": null
+    },
+    {
+      "test_name": "File Upload Analysis",
+      "success": true,
+      "details": "File analysis completed. Length: 1037",
+      "timestamp": "2025-07-13T06:30:35.272576",
+      "response_data": null
+    },
+    {
+      "test_name": "Document Analysis With Auth",
+      "success": true,
+      "details": "Analysis completed with user authentication. User ID: a0914a9e-61d9-4aee-99c1-8e00b7b38926",
+      "timestamp": "2025-07-13T06:30:42.265764",
+      "response_data": null
+    },
+    {
+      "test_name": "Document Analysis - Gap Analysis",
+      "success": true,
+      "details": "Analysis completed successfully. Document length: 1038",
+      "timestamp": "2025-07-13T06:30:49.556950",
+      "response_data": null
+    },
+    {
+      "test_name": "Document Analysis - Requirements Extraction",
+      "success": true,
+      "details": "Requirements extraction completed successfully",
+      "timestamp": "2025-07-13T06:30:51.131140",
+      "response_data": null
+    },
+    {
+      "test_name": "Document Analysis - Summary",
+      "success": true,
+      "details": "Summary analysis completed successfully",
+      "timestamp": "2025-07-13T06:30:53.516284",
+      "response_data": null
+    },
+    {
+      "test_name": "User Specific Analyses",
+      "success": true,
+      "details": "Retrieved 19 user-specific analyses out of 19 total",
+      "timestamp": "2025-07-13T06:30:53.531443",
+      "response_data": null
+    },
+    {
+      "test_name": "Analyses Without Auth",
+      "success": true,
+      "details": "Retrieved 15 public analyses without authentication",
+      "timestamp": "2025-07-13T06:30:53.555811",
+      "response_data": null
+    },
+    {
+      "test_name": "Get All Analyses",
+      "success": true,
+      "details": "Retrieved 19 analyses from database",
+      "timestamp": "2025-07-13T06:30:53.571618",
+      "response_data": null
+    },
+    {
+      "test_name": "Get Specific Analysis",
+      "success": true,
+      "details": "Successfully retrieved analysis fbed2236-dd44-4220-b303-3a910a791b2d",
+      "timestamp": "2025-07-13T06:30:53.581454",
+      "response_data": null
+    },
+    {
+      "test_name": "Workflow Generation - User Journey",
+      "success": true,
+      "details": "User journey workflow generated successfully. 7 nodes created",
+      "timestamp": "2025-07-13T06:30:56.709548",
+      "response_data": null
+    },
+    {
+      "test_name": "Workflow Generation - Service Blueprint",
+      "success": true,
+      "details": "Service blueprint workflow generated successfully. 13 nodes created",
+      "timestamp": "2025-07-13T06:31:19.599762",
+      "response_data": null
+    },
+    {
+      "test_name": "Workflow Generation - Feature Flow",
+      "success": false,
+      "details": "HTTP 500",
+      "timestamp": "2025-07-13T06:31:43.937021",
+      "response_data": "{\"detail\":\"Workflow generation failed: 500: Workflow generation failed: 1 validation error for WorkflowNode\\nconnections.0\\n  Input should be a valid string [type=string_type, input_value={'target': 'select_platform', 'label': 'Start'}, input_type=dict]\\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\"}"
+    },
+    {
+      "test_name": "Workflow Generation With Auth",
+      "success": true,
+      "details": "Workflow generated with user authentication. User ID: a0914a9e-61d9-4aee-99c1-8e00b7b38926",
+      "timestamp": "2025-07-13T06:31:47.016349",
+      "response_data": null
+    },
+    {
+      "test_name": "User Specific Workflows",
+      "success": true,
+      "details": "Retrieved 7 user-specific workflows out of 7 total",
+      "timestamp": "2025-07-13T06:31:47.029376",
+      "response_data": null
+    },
+    {
+      "test_name": "Get All Workflows",
+      "success": true,
+      "details": "Retrieved 7 workflows from database",
+      "timestamp": "2025-07-13T06:31:47.040360",
+      "response_data": null
+    },
+    {
+      "test_name": "Get Specific Workflow",
+      "success": true,
+      "details": "Successfully retrieved workflow f963dc98-e1d1-45ac-8195-d5f8bceecc95",
+      "timestamp": "2025-07-13T06:31:47.057781",
+      "response_data": null
+    }
+  ]
+}

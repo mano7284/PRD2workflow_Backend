@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Generator Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a2e;
+            color: white;
+        }
+        .container {
+            background: #16213e;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #8b5cf6;
+        }
+        .workflow-node {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 8px;
+            border: 2px solid;
+            text-align: center;
+            min-width: 120px;
+        }
+        .start { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; color: #86efac; }
+        .process { background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; color: #93c5fd; }
+        .decision { background: rgba(245, 158, 11, 0.2); border-color: #f59e0b; color: #fcd34d; }
+        .end { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #fca5a5; }
+        .arrow { display: inline-block; margin: 0 10px; font-size: 20px; color: #8b5cf6; }
+        .test-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Workflow Generator Test</h1>
+        <p>This demonstrates how the workflow generator creates readable visual workflows from PRD documents.</p>
+        
+        <button class="test-button" onclick="testWorkflow()">Generate Sample Workflow</button>
+        
+        <div id="result" class="result" style="display: none;">
+            <h3>📋 User Journey Workflow</h3>
+            <div style="margin: 20px 0;">
+                <div class="workflow-node start">START<br>User Login</div>
+                <span class="arrow">→</span>
+                <div class="workflow-node process">PROCESS<br>Dashboard View</div>
+                <span class="arrow">→</span>
+                <div class="workflow-node process">PROCESS<br>Create Post</div>
+                <span class="arrow">→</span>
+                <div class="workflow-node decision">DECISION<br>Schedule Now?</div>
+                <span class="arrow">→</span>
+                <div class="workflow-node process">PROCESS<br>Set Schedule</div>
+                <span class="arrow">→</span>
+                <div class="workflow-node process">PROCESS<br>Publish Post</div>
+                <span class="arrow">→</span>
+                <div class="workflow-node end">END<br>Success Message</div>
+            </div>
+            
+            <h4>📊 Workflow Summary:</h4>
+            <ul>
+                <li><strong>Type:</strong> User Journey</li>
+                <li><strong>Total Steps:</strong> 7</li>
+                <li><strong>Start Points:</strong> 1</li>
+                <li><strong>Process Steps:</strong> 5</li>
+                <li><strong>Decision Points:</strong> 1</li>
+                <li><strong>End Points:</strong> 1</li>
+            </ul>
+            
+            <h4>🎯 Key Features:</h4>
+            <ul>
+                <li>✅ Visual workflow representation</li>
+                <li>✅ Color-coded node types</li>
+                <li>✅ Clear step-by-step progression</li>
+                <li>✅ Decision points identified</li>
+                <li>✅ Professional readable format</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function testWorkflow() {
+            document.getElementById('result').style.display = 'block';
+            // Scroll to result
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

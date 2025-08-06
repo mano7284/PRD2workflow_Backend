@@ -1,0 +1,26 @@
+[
+  {
+    "test": "user_journey",
+    "success": true,
+    "id": "af8655a3-804e-4bdd-a3e3-65d79ba6925f"
+  },
+  {
+    "test": "service_blueprint",
+    "success": true,
+    "id": "b4e7c7da-2cc2-4085-befd-8411210d0d7a"
+  },
+  {
+    "test": "feature_flow",
+    "success": true,
+    "id": "a2486098-1dfe-41de-93bf-301ca07247cc"
+  },
+  {
+    "test": "workflow_retrieval",
+    "success": true,
+    "count": 7
+  },
+  {
+    "test": "specific_workflow_retrieval",
+    "success": true
+  }
+]
